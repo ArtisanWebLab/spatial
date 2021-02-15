@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+    mysql_db:
+        build:
+            context: docker/mysql
+            dockerfile: Dockerfile
+        container_name: 'spatial_mysql'
+        ports:
+            - '3306:3306'
+        env_file: .env
+        environment:
+            MYSQL_USER: "${DB_USERNAME}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_DATABASE}"
+        networks:
+            db_network:
+                ipv4_address: "${MYSQL_DB_HOST}"
+
+    pgsql_db:
+        build:
+            context: docker/pgsql
+            dockerfile: Dockerfile
+        container_name: 'spatial_pgsql'
+        ports:
+            - '5432:5432'
+        env_file: .env
+        environment:
+            POSTGRES_USER: "${DB_USERNAME}"
+            POSTGRES_PASSWORD: "${DB_PASSWORD}"
+            POSTGRES_DB: "${DB_DATABASE}"
+        networks:
+            db_network:
+                ipv4_address: "${PGSQL_DB_HOST}"
+
+networks:
+    db_network:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: "${DOCKER_SUBNET}"
