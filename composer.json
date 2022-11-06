@@ -12,7 +12,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "ext-pdo": "*",
-        "artisanweblab/geojson": "dev-master",
+        "artisanweblab/geojson": "dev-develop",
         "laravel/framework": "^9.0"
     },
     "autoload": {
